@@ -281,7 +281,6 @@ Makefile: ../../Photo-Editor.pro ../../../../Qt/6.9.0/mingw_64/mkspecs/win32-g++
 		../../../../Qt/6.9.0/mingw_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/6.9.0/mingw_64/mkspecs/win32-g++/qmake.conf \
 		../../../../Qt/6.9.0/mingw_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		../../../../Qt/6.9.0/mingw_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/6.9.0/mingw_64/mkspecs/features/toolchain.prf \
 		../../../../Qt/6.9.0/mingw_64/mkspecs/features/default_pre.prf \
@@ -311,6 +310,7 @@ Makefile: ../../Photo-Editor.pro ../../../../Qt/6.9.0/mingw_64/mkspecs/win32-g++
 		../../../../Qt/6.9.0/mingw_64/lib/Qt6Gui.prl \
 		../../../../Qt/6.9.0/mingw_64/lib/Qt6Core.prl \
 		../../../../Qt/6.9.0/mingw_64/lib/Qt6EntryPoint.prl \
+		.qmake.stash \
 		../../../../Qt/6.9.0/mingw_64/mkspecs/features/build_pass.prf \
 		../../resources.qrc
 	$(QMAKE) -o Makefile ../../Photo-Editor.pro -spec win32-g++ CONFIG+=qtquickcompiler
@@ -525,7 +525,6 @@ Makefile: ../../Photo-Editor.pro ../../../../Qt/6.9.0/mingw_64/mkspecs/win32-g++
 ../../../../Qt/6.9.0/mingw_64/mkspecs/features/qt_config.prf:
 ../../../../Qt/6.9.0/mingw_64/mkspecs/win32-g++/qmake.conf:
 ../../../../Qt/6.9.0/mingw_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 ../../../../Qt/6.9.0/mingw_64/mkspecs/features/exclusive_builds.prf:
 ../../../../Qt/6.9.0/mingw_64/mkspecs/features/toolchain.prf:
 ../../../../Qt/6.9.0/mingw_64/mkspecs/features/default_pre.prf:
@@ -555,6 +554,7 @@ Makefile: ../../Photo-Editor.pro ../../../../Qt/6.9.0/mingw_64/mkspecs/win32-g++
 ../../../../Qt/6.9.0/mingw_64/lib/Qt6Gui.prl:
 ../../../../Qt/6.9.0/mingw_64/lib/Qt6Core.prl:
 ../../../../Qt/6.9.0/mingw_64/lib/Qt6EntryPoint.prl:
+.qmake.stash:
 ../../../../Qt/6.9.0/mingw_64/mkspecs/features/build_pass.prf:
 ../../resources.qrc:
 qmake: FORCE

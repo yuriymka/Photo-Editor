@@ -102,6 +102,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "createNewCanvasFromImage",
         "openImage",
         "saveImage",
+        "saveProject",
+        "openProject",
         "addLayer",
         "pixmap",
         "name",
@@ -150,7 +152,14 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "onVintageFilter",
         "onEdgeFilter",
         "onHueFilter",
-        "onSelectiveColorFilter"
+        "onSelectiveColorFilter",
+        "showSettings",
+        "changeLanguage",
+        "language",
+        "changeFileExtension",
+        "extension",
+        "loadSettings",
+        "saveSettings"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -162,106 +171,124 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'saveImage'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'saveProject'
+        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'openProject'
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'addLayer'
-        QtMocHelpers::SlotData<void(const QPixmap &, const QString &)>(6, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QPixmap, 7 }, { QMetaType::QString, 8 },
+        QtMocHelpers::SlotData<void(const QPixmap &, const QString &)>(8, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QPixmap, 9 }, { QMetaType::QString, 10 },
         }}),
         // Slot 'toggleLayerVisibility'
-        QtMocHelpers::SlotData<void(QListWidgetItem *)>(9, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 10, 11 },
+        QtMocHelpers::SlotData<void(QListWidgetItem *)>(11, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 12, 13 },
         }}),
         // Slot 'layerSelectionChanged'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onGlobalOpacitySliderChanged'
-        QtMocHelpers::SlotData<void(int)>(13, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 14 },
+        QtMocHelpers::SlotData<void(int)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 16 },
         }}),
         // Slot 'onSceneSelectionChanged'
-        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onMoveToolClicked'
-        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onResizeToolClicked'
         QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onRotateToolClicked'
+        // Slot 'onMoveToolClicked'
         QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onBrushToolClicked'
+        // Slot 'onResizeToolClicked'
         QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onEraserToolClicked'
+        // Slot 'onRotateToolClicked'
         QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onBrushToolClicked'
+        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onEraserToolClicked'
+        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onRotationSliderChanged'
-        QtMocHelpers::SlotData<void(int)>(21, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 14 },
+        QtMocHelpers::SlotData<void(int)>(23, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 16 },
         }}),
         // Slot 'onWidthSpinChanged'
-        QtMocHelpers::SlotData<void(int)>(22, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 14 },
+        QtMocHelpers::SlotData<void(int)>(24, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 16 },
         }}),
         // Slot 'onHeightSpinChanged'
-        QtMocHelpers::SlotData<void(int)>(23, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 14 },
+        QtMocHelpers::SlotData<void(int)>(25, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 16 },
         }}),
         // Slot 'onWidthSpinEditingFinished'
-        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onHeightSpinEditingFinished'
-        QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onBlurFilter'
         QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onSaturationFilter'
+        // Slot 'onHeightSpinEditingFinished'
         QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'createActions'
+        // Slot 'onBlurFilter'
         QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'createToolBar'
+        // Slot 'onSaturationFilter'
         QtMocHelpers::SlotData<void()>(29, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'deleteLayer'
+        // Slot 'createActions'
         QtMocHelpers::SlotData<void()>(30, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'updateLayerPanel'
+        // Slot 'createToolBar'
         QtMocHelpers::SlotData<void()>(31, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'showResizeDialog'
+        // Slot 'deleteLayer'
         QtMocHelpers::SlotData<void()>(32, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'toggleGrid'
+        // Slot 'updateLayerPanel'
         QtMocHelpers::SlotData<void()>(33, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'addNewLayer'
+        // Slot 'showResizeDialog'
         QtMocHelpers::SlotData<void()>(34, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'applySaturation'
+        // Slot 'toggleGrid'
         QtMocHelpers::SlotData<void()>(35, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'updateCanvasSize'
+        // Slot 'addNewLayer'
         QtMocHelpers::SlotData<void()>(36, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'showBlurDialog'
+        // Slot 'applySaturation'
         QtMocHelpers::SlotData<void()>(37, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'updateCanvasSize'
+        QtMocHelpers::SlotData<void()>(38, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'showBlurDialog'
+        QtMocHelpers::SlotData<void()>(39, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'showLayerContextMenu'
-        QtMocHelpers::SlotData<void(const QPoint &)>(38, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QPoint, 39 },
+        QtMocHelpers::SlotData<void(const QPoint &)>(40, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QPoint, 41 },
         }}),
         // Slot 'addEmptyLayer'
-        QtMocHelpers::SlotData<void()>(40, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(42, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onBrushSizeChanged'
-        QtMocHelpers::SlotData<void(int)>(41, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 42 },
+        QtMocHelpers::SlotData<void(int)>(43, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 44 },
         }}),
         // Slot 'onBrushColorChanged'
-        QtMocHelpers::SlotData<void(const QColor &)>(43, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QColor, 44 },
+        QtMocHelpers::SlotData<void(const QColor &)>(45, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QColor, 46 },
         }}),
         // Slot 'onBrightnessFilter'
-        QtMocHelpers::SlotData<void()>(45, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onContrastFilter'
-        QtMocHelpers::SlotData<void()>(46, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onGrayscaleFilter'
         QtMocHelpers::SlotData<void()>(47, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onInvertFilter'
+        // Slot 'onContrastFilter'
         QtMocHelpers::SlotData<void()>(48, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'undoLastOperation'
+        // Slot 'onGrayscaleFilter'
         QtMocHelpers::SlotData<void()>(49, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onCartoonFilter'
+        // Slot 'onInvertFilter'
         QtMocHelpers::SlotData<void()>(50, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onVintageFilter'
+        // Slot 'undoLastOperation'
         QtMocHelpers::SlotData<void()>(51, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onEdgeFilter'
+        // Slot 'onCartoonFilter'
         QtMocHelpers::SlotData<void()>(52, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onHueFilter'
+        // Slot 'onVintageFilter'
         QtMocHelpers::SlotData<void()>(53, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onSelectiveColorFilter'
+        // Slot 'onEdgeFilter'
         QtMocHelpers::SlotData<void()>(54, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onHueFilter'
+        QtMocHelpers::SlotData<void()>(55, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onSelectiveColorFilter'
+        QtMocHelpers::SlotData<void()>(56, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'showSettings'
+        QtMocHelpers::SlotData<void()>(57, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'changeLanguage'
+        QtMocHelpers::SlotData<void(const QString &)>(58, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 59 },
+        }}),
+        // Slot 'changeFileExtension'
+        QtMocHelpers::SlotData<void(const QString &)>(60, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 61 },
+        }}),
+        // Slot 'loadSettings'
+        QtMocHelpers::SlotData<void()>(62, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'saveSettings'
+        QtMocHelpers::SlotData<void()>(63, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -289,47 +316,54 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->createNewCanvasFromImage(); break;
         case 2: _t->openImage(); break;
         case 3: _t->saveImage(); break;
-        case 4: _t->addLayer((*reinterpret_cast< std::add_pointer_t<QPixmap>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 5: _t->toggleLayerVisibility((*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[1]))); break;
-        case 6: _t->layerSelectionChanged(); break;
-        case 7: _t->onGlobalOpacitySliderChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 8: _t->onSceneSelectionChanged(); break;
-        case 9: _t->onMoveToolClicked(); break;
-        case 10: _t->onResizeToolClicked(); break;
-        case 11: _t->onRotateToolClicked(); break;
-        case 12: _t->onBrushToolClicked(); break;
-        case 13: _t->onEraserToolClicked(); break;
-        case 14: _t->onRotationSliderChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 15: _t->onWidthSpinChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 16: _t->onHeightSpinChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 17: _t->onWidthSpinEditingFinished(); break;
-        case 18: _t->onHeightSpinEditingFinished(); break;
-        case 19: _t->onBlurFilter(); break;
-        case 20: _t->onSaturationFilter(); break;
-        case 21: _t->createActions(); break;
-        case 22: _t->createToolBar(); break;
-        case 23: _t->deleteLayer(); break;
-        case 24: _t->updateLayerPanel(); break;
-        case 25: _t->showResizeDialog(); break;
-        case 26: _t->toggleGrid(); break;
-        case 27: _t->addNewLayer(); break;
-        case 28: _t->applySaturation(); break;
-        case 29: _t->updateCanvasSize(); break;
-        case 30: _t->showBlurDialog(); break;
-        case 31: _t->showLayerContextMenu((*reinterpret_cast< std::add_pointer_t<QPoint>>(_a[1]))); break;
-        case 32: _t->addEmptyLayer(); break;
-        case 33: _t->onBrushSizeChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 34: _t->onBrushColorChanged((*reinterpret_cast< std::add_pointer_t<QColor>>(_a[1]))); break;
-        case 35: _t->onBrightnessFilter(); break;
-        case 36: _t->onContrastFilter(); break;
-        case 37: _t->onGrayscaleFilter(); break;
-        case 38: _t->onInvertFilter(); break;
-        case 39: _t->undoLastOperation(); break;
-        case 40: _t->onCartoonFilter(); break;
-        case 41: _t->onVintageFilter(); break;
-        case 42: _t->onEdgeFilter(); break;
-        case 43: _t->onHueFilter(); break;
-        case 44: _t->onSelectiveColorFilter(); break;
+        case 4: _t->saveProject(); break;
+        case 5: _t->openProject(); break;
+        case 6: _t->addLayer((*reinterpret_cast< std::add_pointer_t<QPixmap>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 7: _t->toggleLayerVisibility((*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[1]))); break;
+        case 8: _t->layerSelectionChanged(); break;
+        case 9: _t->onGlobalOpacitySliderChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 10: _t->onSceneSelectionChanged(); break;
+        case 11: _t->onMoveToolClicked(); break;
+        case 12: _t->onResizeToolClicked(); break;
+        case 13: _t->onRotateToolClicked(); break;
+        case 14: _t->onBrushToolClicked(); break;
+        case 15: _t->onEraserToolClicked(); break;
+        case 16: _t->onRotationSliderChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 17: _t->onWidthSpinChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 18: _t->onHeightSpinChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 19: _t->onWidthSpinEditingFinished(); break;
+        case 20: _t->onHeightSpinEditingFinished(); break;
+        case 21: _t->onBlurFilter(); break;
+        case 22: _t->onSaturationFilter(); break;
+        case 23: _t->createActions(); break;
+        case 24: _t->createToolBar(); break;
+        case 25: _t->deleteLayer(); break;
+        case 26: _t->updateLayerPanel(); break;
+        case 27: _t->showResizeDialog(); break;
+        case 28: _t->toggleGrid(); break;
+        case 29: _t->addNewLayer(); break;
+        case 30: _t->applySaturation(); break;
+        case 31: _t->updateCanvasSize(); break;
+        case 32: _t->showBlurDialog(); break;
+        case 33: _t->showLayerContextMenu((*reinterpret_cast< std::add_pointer_t<QPoint>>(_a[1]))); break;
+        case 34: _t->addEmptyLayer(); break;
+        case 35: _t->onBrushSizeChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 36: _t->onBrushColorChanged((*reinterpret_cast< std::add_pointer_t<QColor>>(_a[1]))); break;
+        case 37: _t->onBrightnessFilter(); break;
+        case 38: _t->onContrastFilter(); break;
+        case 39: _t->onGrayscaleFilter(); break;
+        case 40: _t->onInvertFilter(); break;
+        case 41: _t->undoLastOperation(); break;
+        case 42: _t->onCartoonFilter(); break;
+        case 43: _t->onVintageFilter(); break;
+        case 44: _t->onEdgeFilter(); break;
+        case 45: _t->onHueFilter(); break;
+        case 46: _t->onSelectiveColorFilter(); break;
+        case 47: _t->showSettings(); break;
+        case 48: _t->changeLanguage((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 49: _t->changeFileExtension((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 50: _t->loadSettings(); break;
+        case 51: _t->saveSettings(); break;
         default: ;
         }
     }
@@ -354,14 +388,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 45)
+        if (_id < 52)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 45;
+        _id -= 52;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 45)
+        if (_id < 52)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 45;
+        _id -= 52;
     }
     return _id;
 }
