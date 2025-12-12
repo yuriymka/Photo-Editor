@@ -22,8 +22,6 @@
 #include <QInputDialog>
 #include <QColorDialog>
 #include <QMouseEvent>
-#include <QGroupBox>
-#include <QRadioButton>
 #include <opencv2/opencv.hpp>
 #include <QDateTime>
 #include <QTextStream>
@@ -38,19 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     , isDrawing(false)
     , currentPixmap(nullptr)
     , currentPainter(nullptr)
-    , translator(new QTranslator(this))
-    , currentLanguage("en")
-    , projectFileExtension("pep")
-    , appSettings(new QSettings("PhotoEditor", "PhotoEditor", this))
 {
     ui->setupUi(this);
-    setWindowTitle("Photo Editor");
-
-    // Load settings
-    loadSettings();
-
-    // Initialize translator
-    applyLanguage(currentLanguage);
 
     // Initialize canvas components
     canvasView = new QGraphicsView(this);
@@ -201,8 +188,6 @@ void MainWindow::setupMenu()
 {
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
-    QMenu *settingsMenu = menuBar()->addMenu(tr("&Settings"));
-    settingsMenu->setObjectName("menuSettings");
 
     // Add undo action to Edit menu
     undoAction = new QAction(tr("&Undo"), this);
@@ -229,17 +214,6 @@ void MainWindow::setupMenu()
     saveImageAction->setShortcut(QKeySequence::Save);
     connect(saveImageAction, &QAction::triggered, this, &MainWindow::saveImage);
     fileMenu->addAction(saveImageAction);
-
-    // Add project actions
-    saveProjectAction = new QAction(tr("Save &Project"), this);
-    saveProjectAction->setShortcut(QKeySequence(tr("Ctrl+Shift+S")));
-    connect(saveProjectAction, &QAction::triggered, this, &MainWindow::saveProject);
-    fileMenu->addAction(saveProjectAction);
-
-    openProjectAction = new QAction(tr("Open &Project"), this);
-    openProjectAction->setShortcut(QKeySequence(tr("Ctrl+Shift+O")));
-    connect(openProjectAction, &QAction::triggered, this, &MainWindow::openProject);
-    fileMenu->addAction(openProjectAction);
 
     // Add Filters menu
     QMenu *filtersMenu = menuBar()->addMenu(tr("&Filters"));
@@ -286,163 +260,6 @@ void MainWindow::setupMenu()
     QAction *selectiveColorAction = new QAction(tr("Selective Color"), this);
     connect(selectiveColorAction, &QAction::triggered, this, &MainWindow::onSelectiveColorFilter);
     filtersMenu->addAction(selectiveColorAction);
-
-    // Add Settings menu items
-    QAction* settingsAction = new QAction(tr("Settings..."), this);
-    connect(settingsAction, &QAction::triggered, this, &MainWindow::showSettings);
-    settingsMenu->addAction(settingsAction);
-    settingsMenu->addSeparator();
-
-    // Language submenu
-    QMenu* languageMenu = settingsMenu->addMenu(tr("Language"));
-    QAction* englishAction = languageMenu->addAction("English");
-    QAction* ukrainianAction = languageMenu->addAction("Українська");
-
-    connect(englishAction, &QAction::triggered, [this]() { changeLanguage("en"); });
-    connect(ukrainianAction, &QAction::triggered, [this]() { changeLanguage("uk"); });
-
-    // File extension submenu
-    QMenu* extensionMenu = settingsMenu->addMenu(tr("Project File Extension"));
-    QAction* defaultAction = extensionMenu->addAction(".pep (Default)");
-    QAction* customAction = extensionMenu->addAction(tr("Custom..."));
-
-    connect(defaultAction, &QAction::triggered, [this]() { changeFileExtension("pep"); });
-    connect(customAction, &QAction::triggered, [this]() {
-        bool ok;
-        QString extension = QInputDialog::getText(this, tr("Custom Extension"),
-            tr("Enter file extension (without dot):"), QLineEdit::Normal,
-            projectFileExtension, &ok);
-        if (ok && !extension.isEmpty()) {
-            changeFileExtension(extension);
-        }
-    });
-}
-
-void MainWindow::showSettings()
-{
-    QDialog dialog(this);
-    dialog.setWindowTitle(tr("Settings"));
-    QVBoxLayout* layout = new QVBoxLayout(&dialog);
-
-    // Language selection
-    QGroupBox* languageGroup = new QGroupBox(tr("Language"), &dialog);
-    QVBoxLayout* languageLayout = new QVBoxLayout(languageGroup);
-    QRadioButton* englishRadio = new QRadioButton("English", languageGroup);
-    QRadioButton* ukrainianRadio = new QRadioButton("Українська", languageGroup);
-    englishRadio->setChecked(currentLanguage == "en");
-    ukrainianRadio->setChecked(currentLanguage == "uk");
-    languageLayout->addWidget(englishRadio);
-    languageLayout->addWidget(ukrainianRadio);
-
-    // File extension
-    QGroupBox* extensionGroup = new QGroupBox(tr("Project File Extension"), &dialog);
-    QVBoxLayout* extensionLayout = new QVBoxLayout(extensionGroup);
-    QRadioButton* defaultRadio = new QRadioButton(".pep (Default)", extensionGroup);
-    QRadioButton* customRadio = new QRadioButton(tr("Custom:"), extensionGroup);
-    QLineEdit* customExtension = new QLineEdit(extensionGroup);
-    customExtension->setText(projectFileExtension);
-    customExtension->setEnabled(false);
-    defaultRadio->setChecked(projectFileExtension == "pep");
-    customRadio->setChecked(projectFileExtension != "pep");
-    extensionLayout->addWidget(defaultRadio);
-    extensionLayout->addWidget(customRadio);
-    extensionLayout->addWidget(customExtension);
-
-    // Buttons
-    QPushButton* okButton = new QPushButton(tr("OK"), &dialog);
-    QPushButton* cancelButton = new QPushButton(tr("Cancel"), &dialog);
-    QHBoxLayout* buttonLayout = new QHBoxLayout;
-    buttonLayout->addWidget(okButton);
-    buttonLayout->addWidget(cancelButton);
-
-    // Add all to main layout
-    layout->addWidget(languageGroup);
-    layout->addWidget(extensionGroup);
-    layout->addLayout(buttonLayout);
-
-    // Connect signals
-    connect(customRadio, &QRadioButton::toggled, customExtension, &QLineEdit::setEnabled);
-    connect(okButton, &QPushButton::clicked, &dialog, &QDialog::accept);
-    connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
-
-    if (dialog.exec() == QDialog::Accepted) {
-        // Apply language change
-        if (englishRadio->isChecked()) {
-            changeLanguage("en");
-        } else if (ukrainianRadio->isChecked()) {
-            changeLanguage("uk");
-        }
-
-        // Apply extension change
-        if (defaultRadio->isChecked()) {
-            changeFileExtension("pep");
-        } else if (customRadio->isChecked()) {
-            changeFileExtension(customExtension->text());
-        }
-    }
-}
-
-void MainWindow::changeLanguage(const QString& language)
-{
-    if (language != currentLanguage) {
-        currentLanguage = language;
-        applyLanguage(language);
-        saveSettings();
-    }
-}
-
-void MainWindow::applyLanguage(const QString& language)
-{
-    if (language == "uk") {
-        if (translator->load(":/translations/Photo_Editor_uk_UA")) {
-            qApp->installTranslator(translator);
-            // Force UI update
-            ui->retranslateUi(this);
-            // Update menu items
-            // setupMenu();
-            // Update layer dock
-            // setupLayerDock();
-        } else {
-            QMessageBox::warning(this, tr("Translation Error"),
-                tr("Failed to load Ukrainian translation file."));
-        }
-    } else {
-        qApp->removeTranslator(translator);
-        // Force UI update
-        ui->retranslateUi(this);
-        // Update menu items
-        // setupMenu();
-        // Update layer dock
-        // setupLayerDock();
-    }
-}
-
-void MainWindow::changeFileExtension(const QString& extension)
-{
-    if (extension != projectFileExtension) {
-        projectFileExtension = extension;
-        applyFileExtension(extension);
-        saveSettings();
-    }
-}
-
-void MainWindow::applyFileExtension(const QString& extension)
-{
-    // Update file dialogs to use the new extension
-    // This will take effect the next time a file dialog is opened
-}
-
-void MainWindow::loadSettings()
-{
-    currentLanguage = appSettings->value("language", "en").toString();
-    projectFileExtension = appSettings->value("projectExtension", "pep").toString();
-}
-
-void MainWindow::saveSettings()
-{
-    appSettings->setValue("language", currentLanguage);
-    appSettings->setValue("projectExtension", projectFileExtension);
-    appSettings->sync();
 }
 
 void MainWindow::setupLayerDock()
@@ -2752,171 +2569,4 @@ void MainWindow::applySelectiveColor(const QPixmap& input, QPixmap& output,
     cv::cvtColor(outputMat, outputMat, cv::COLOR_BGR2BGRA);
 
     output = Layer::matToPixmap(outputMat);
-}
-
-void MainWindow::saveProject()
-{
-    logFunctionCall("saveProject");
-    if (!hasCanvas()) {
-        QMessageBox::warning(this, tr("Warning"),
-            tr("Please create a canvas first before saving the project."));
-        return;
-    }
-
-    QString filter = tr("Photo Editor Project (*.%1)").arg(projectFileExtension);
-    QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Save Project"), "",
-        filter);
-
-    if (!fileName.isEmpty()) {
-        // Ensure file has the correct extension
-        if (!fileName.endsWith("." + projectFileExtension)) {
-            fileName += "." + projectFileExtension;
-        }
-
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::warning(this, tr("Error"),
-                tr("Could not open file for writing."));
-            return;
-        }
-
-        QDataStream out(&file);
-        out.setVersion(QDataStream::Qt_5_15);
-
-        // Write file format version
-        out << (quint32)0x1;
-
-        // Find the background/canvas item
-        QGraphicsRectItem* canvas = nullptr;
-        for (QGraphicsItem* item : canvasScene->items(Qt::AscendingOrder)) {
-            canvas = qgraphicsitem_cast<QGraphicsRectItem*>(item);
-            if (canvas) break;
-        }
-        if (!canvas) {
-            QMessageBox::warning(this, tr("Error"), tr("No canvas found."));
-            return;
-        }
-
-        // Save canvas size
-        out << canvas->rect().width() << canvas->rect().height();
-
-        // Save number of layers
-        int layerCount = layerList->count();
-        out << layerCount;
-
-        // Save each layer
-        for (int i = 0; i < layerCount; ++i) {
-            QListWidgetItem* item = layerList->item(i);
-            Layer* layer = static_cast<Layer*>(item->data(Qt::UserRole).value<void*>());
-            
-            // Save layer name
-            out << item->text();
-            
-            // Save layer visibility
-            out << (item->checkState() == Qt::Checked);
-            
-            if (layer) {
-                // Save layer properties
-                out << layer->pos() << layer->rotation() << layer->opacity();
-                
-                // Save layer pixmap
-                QPixmap pixmap = layer->pixmap();
-                out << pixmap;
-            }
-        }
-
-        file.close();
-    }
-}
-
-void MainWindow::openProject()
-{
-    logFunctionCall("openProject");
-    QString filter = tr("Photo Editor Project (*.%1)").arg(projectFileExtension);
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Project"), "",
-        filter);
-
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::warning(this, tr("Error"),
-                tr("Could not open file for reading."));
-            return;
-        }
-
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_5_15);
-
-        // Read file format version
-        quint32 version;
-        in >> version;
-        if (version != 0x1) {
-            QMessageBox::warning(this, tr("Error"),
-                tr("Unsupported project file version."));
-            return;
-        }
-
-        // Clear existing scene and layer list
-        canvasScene->clear();
-        layerList->clear();
-
-        // Read canvas size
-        qreal width, height;
-        in >> width >> height;
-
-        // Create new canvas
-        QGraphicsRectItem *canvas = new QGraphicsRectItem(0, 0, width, height);
-        canvas->setBrush(Qt::white);
-        canvas->setPen(QPen(Qt::black, 1, Qt::SolidLine));
-        canvas->setVisible(true);
-        canvasScene->addItem(canvas);
-
-        // Read number of layers
-        int layerCount;
-        in >> layerCount;
-
-        // Read each layer
-        for (int i = 0; i < layerCount; ++i) {
-            QString layerName;
-            bool isVisible;
-            QPointF position;
-            qreal rotation;
-            qreal opacity;
-            QPixmap pixmap;
-
-            in >> layerName >> isVisible;
-
-            if (i > 0) { // Skip properties for background layer
-                in >> position >> rotation >> opacity >> pixmap;
-
-                // Create and add layer
-                Layer* layer = new Layer(pixmap, layerName);
-                layer->setPos(position);
-                layer->setRotation(rotation);
-                layer->setOpacity(opacity);
-                layer->setVisible(isVisible);
-                canvasScene->addItem(layer);
-
-                // Add to layer list
-                QListWidgetItem* item = new QListWidgetItem(layerName);
-                item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-                item->setCheckState(isVisible ? Qt::Checked : Qt::Unchecked);
-                item->setData(Qt::UserRole, QVariant::fromValue(static_cast<void*>(layer)));
-                layerList->addItem(item);
-            } else {
-                // Add background layer to list
-                QListWidgetItem* backgroundItem = new QListWidgetItem(layerName);
-                backgroundItem->setFlags(backgroundItem->flags() | Qt::ItemIsUserCheckable);
-                backgroundItem->setCheckState(isVisible ? Qt::Checked : Qt::Unchecked);
-                layerList->addItem(backgroundItem);
-            }
-        }
-
-        file.close();
-
-        // Adjust view to fit the canvas
-        canvasView->fitInView(canvas, Qt::KeepAspectRatio);
-    }
 }

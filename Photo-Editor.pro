@@ -38,30 +38,15 @@ CONFIG(release, debug|release) {
 HEADERS += \
     mainwindow.h \
     layer.h \
-    layerwidget.h
+    layerwidget.h \
+    canvasdialog.h
 
 FORMS += \
     mainwindow.ui
 
-RESOURCES += \
-    resources.qrc
+RESOURCES += resources.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-# Translation files
-TRANSLATIONS += \
-    Photo_Editor_uk_UA.ts
-
-# Configure translation files
-CODECFORSRC = UTF-8
-QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
-QM_FILES_RESOURCE_PREFIX = /translations
-
-# Ensure translations directory exists
-!exists(translations) {
-    QMAKE_MKDIR_CMD = $$QMAKE_CHK_DIR_EXISTS $$OUT_PWD/translations || $$QMAKE_MKDIR $$OUT_PWD/translations
-    system($$QMAKE_MKDIR_CMD)
-}

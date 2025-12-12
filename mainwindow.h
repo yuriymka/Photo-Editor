@@ -25,8 +25,6 @@
 #include <QTextStream>
 #include <QDateTime>
 #include <QList>
-#include <QTranslator>
-#include <QSettings>
 #include "layer.h"
 #include "layerwidget.h"
 
@@ -74,8 +72,6 @@ private slots:
     void createNewCanvasFromImage();
     void openImage();
     void saveImage();
-    void saveProject();
-    void openProject();
     void addLayer(const QPixmap& pixmap, const QString& name);
     void toggleLayerVisibility(QListWidgetItem* item);
     void layerSelectionChanged();
@@ -117,11 +113,6 @@ private slots:
     void onEdgeFilter();
     void onHueFilter();
     void onSelectiveColorFilter();
-    void showSettings();
-    void changeLanguage(const QString& language);
-    void changeFileExtension(const QString& extension);
-    void loadSettings();
-    void saveSettings();
 
 private:
     Ui::MainWindow *ui;
@@ -173,18 +164,10 @@ private:
     QAction* newCanvasAction;
     QAction* newCanvasFromImageAction;
     QAction* undoAction;
-    QAction* saveProjectAction;
-    QAction* openProjectAction;
-    QAction* settingsAction;
     QToolBar* toolBar;
 
     // Add undo-related members
     QList<OperationHistory> operationHistory;
-
-    QTranslator* translator;
-    QString currentLanguage;
-    QString projectFileExtension;
-    QSettings* appSettings;
 
     void setupMenu();
     void setupLayerDock();
@@ -254,9 +237,5 @@ private:
     void applySelectiveColor(const QPixmap& input, QPixmap& output, 
                            int redHue, int greenHue, int blueHue,
                            int cyanHue, int magentaHue, int yellowHue);
-
-    void setupSettingsMenu();
-    void applyLanguage(const QString& language);
-    void applyFileExtension(const QString& extension);
 };
 #endif // MAINWINDOW_H

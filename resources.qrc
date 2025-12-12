@@ -1,14 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/icons">
         <file>icons/resize.png</file>
         <file>icons/rotate.png</file>
-        <file>icons/move.png</file>
-        <file>icons/brush.png</file>
-        <file>icons/eraser.png</file>
-        <file>icons/app_icon.png</file>
-    </qresource>
-    <qresource prefix="/translations">
-        <file>Photo_Editor_uk_UA.qm</file>
     </qresource>
 </RCC> 
